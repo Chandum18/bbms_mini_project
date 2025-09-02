@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Voter Login - Online Voting System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background: linear-gradient(135deg, #a9cce3, #f4f6f8);
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 30px;
+    }
+    form {
+      background-color: #e8f0fe;
+      padding: 25px 30px;
+      border-radius: 8px;
+      max-width: 400px;
+      margin: 0 auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+    input[type="text"], input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 1rem;
+    }
+    .error {
+      color: #d9534f;
+      font-size: 0.9rem;
+      margin-top: 3px;
+    }
+    button {
+      margin-top: 25px;
+      background-color: #2980b9;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: block;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #1c5980;
+    }
+    .forgot-link {
+      display: block;
+      margin-top: 15px;
+      text-align: right;
+      font-size: 0.9rem;
+    }
+    .forgot-link a {
+      color: #2980b9;
+      text-decoration: none;
+    }
+    .forgot-link a:hover {
+      text-decoration: underline;
+    }
+    .login-option {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 1rem;
+      color: #555;
+    }
+    .login-option button {
+      width: auto;
+      padding: 8px 15px;
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Voter Login</h1>
+  <form id="loginForm" novalidate>
+    <label for="identifier">Voter ID or Email*</label>
+    <input type="text" id="identifier" name="identifier" required />
+    <div class="error" id="identifierError"></div>
+
+    <label for="password">Password*</label>
+    <input type="password" id="password" name="password" required />
+    <div class="error" id="passwordError"></div>
+
+    <button type="submit">Login</button>
+
+    <div class="forgot-link">
+      <a href="forgot_password.html">Forgot password?</a>
+    </div>
+
+    <div class="login-option">
+      <p>Or login using OTP:</p>
+      <button type="button" id="otpLoginBtn">Send OTP</button>
+    </div>
+  </form>
+
+  <script>
+    const form = document.getElementById('loginForm');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      clearErrors();
+      let valid = validateForm();
+
+      if(valid) {
+        // TODO: Connect to backend login API
+        alert('Login submitted! Backend validation needed.');
+      }
+    });
+
+    function validateForm() {
+      let isValid = true;
+      const identifier = form.identifier.value.trim();
+      const password = form.password.value;
+
+      if(identifier.length === 0) {
+        showError('identifierError', 'Please enter your Voter ID or Email.');
+        isValid = false;
+      }
+
+      if(password.length === 0) {
+        showError('passwordError', 'Please enter your password.');
+        isValid = false;
+      }
+      return isValid;
+    }
+
+    function showError(id, message) {
+      document.getElementById(id).textContent = message;
+    }
+
+    function clearErrors() {
+      const errors = document.querySelectorAll('.error');
+      errors.forEach(e => e.textContent = '');
+    }
+
+    // OTP login button click handler
+    document.getElementById('otpLoginBtn').addEventListener('click', function() {
+      const identifier = form.identifier.value.trim();
+      if(identifier.length === 0) {
+        showError('identifierError', 'Enter your Voter ID or Email to receive OTP.');
+        return;
+      }
+      alert('OTP sent to your registered contact! Backend integration required.');
+      // Implement OTP sending logic here with backend connection
+    });
+  </script>
+</body>
+</html>
