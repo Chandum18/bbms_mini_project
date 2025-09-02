@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Election List - Online Voting System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background: linear-gradient(135deg, #a9cce3, #f4f6f8);
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 30px;
+    }
+    .election-list {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #e8f0fe;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .election-item {
+      padding: 15px;
+      border-bottom: 1px solid #b0c4de;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      border-radius: 4px;
+    }
+    .election-item:last-child {
+      border-bottom: none;
+    }
+    .election-item:hover {
+      background-color: #d0e7ff;
+    }
+    .election-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #2980b9;
+    }
+    .election-date {
+      font-size: 0.9rem;
+      color: #555;
+      margin-top: 5px;
+    }
+    .no-election {
+      text-align: center;
+      color: #888;
+      font-style: italic;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Available Elections</h1>
+  <div class="election-list" id="electionList">
+    <!-- Election items will be inserted here -->
+  </div>
+
+  <script>
+    // Sample data for ongoing/upcoming elections
+    const elections = [
+      {
+        id: 1,
+        title: "Student Council Election",
+        startDate: "2025-09-10",
+        endDate: "2025-09-15",
+        link: "candidate.html"
+      },
+      {
+        id: 2,
+        title: "Community Board Election",
+        startDate: "2025-09-20",
+        endDate: "2025-09-25",
+        link: "candi2.html"
+
+      },
+      {
+        id: 3,
+        title: "Local Sports Committee Election",
+        startDate: "2025-10-01",
+        endDate: "2025-10-05",
+        link: "cd3.html"
+      }
+    ];
+
+    const electionList = document.getElementById("electionList");
+
+    function formatDate(dateStr) {
+      const options = { year: 'numeric', month: 'short', day: 'numeric' };
+      return new Date(dateStr).toLocaleDateString(undefined, options);
+    }
+
+    function loadElections() {
+      if (elections.length === 0) {
+        electionList.innerHTML = '<p class="no-election">No elections available at the moment.</p>';
+        return;
+      }
+
+      elections.forEach(election => {
+        const div = document.createElement('div');
+        div.className = 'election-item';
+        div.tabIndex = 0;
+        div.innerHTML = `
+          <div class="election-title">${election.title}</div>
+          <div class="election-date">
+            Voting Period: ${formatDate(election.startDate)} - ${formatDate(election.endDate)}
+          </div>
+        `;
+
+        // Redirect logic
+        div.addEventListener('click', () => {
+          if (election.link) {
+            window.location.href = election.link;
+          } else {
+            window.location.href = `candidates.html?electionId=${election.id}`;
+          }
+        });
+
+        div.addEventListener('keypress', (e) => {
+          if (e.key === "Enter") div.click();
+        });
+
+        electionList.appendChild(div);
+      });
+    }
+
+    loadElections();
+  </script>
+</body>
+</html>
